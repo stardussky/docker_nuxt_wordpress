@@ -88,6 +88,7 @@ export default {
         '@nuxtjs/style-resources'
     ],
     modules: [
+        ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }],
         '@nuxtjs/axios',
         '@nuxtjs/svg-sprite',
         'nuxt-rfg-icon',
