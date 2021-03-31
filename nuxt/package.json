@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev-https": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && nuxt --env.NODE_TLS_REJECT_UNAUTHORIZED=0",
     "build": "nuxt build --dotenv .env.production",
-    "start": "nuxt start",
+    "start": "nuxt start --dotenv .env.production",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
+    "@nuxtjs/component-cache": "^1.1.6",
     "body-scroll-lock": "^3.1.5",
     "core-js": "^3.8.3",
     "detect-browser": "^5.2.0",
@@ -29,7 +31,9 @@
     "imagesloaded": "^4.1.4",
     "lodash": "^4.17.20",
     "nuxt": "^2.14.12",
-    "nuxt-i18n": "^6.20.2"
+    "nuxt-i18n": "^6.20.2",
+    "nuxt-webfontloader": "^1.1.0",
+    "portal-vue": "^2.1.7"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",

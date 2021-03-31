@@ -15,6 +15,9 @@
 </template>
 
 <script>
+import ImagesLoaded from 'imagesloaded'
+import { mapActions } from 'vuex'
+
 export default {
     name: 'PageEnd',
     beforeRouteEnter (to, from, next) {
@@ -25,6 +28,7 @@ export default {
             }
         })
     },
+    middleware: 'loadingMiddleware',
     data () {
         return {
             route: null
@@ -34,6 +38,15 @@ export default {
         localeData () {
             return this.$t(this.$translateUrl('all', this.route || this.$route).routeName)
         }
+    },
+    mounted(){
+        /* eslint-disable no-unused-vars */
+        const loader = new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
+            this.DONE_LOADING()
+        })
+    },
+    methods: {
+        ...mapActions(['DONE_LOADING'])
     }
 }
 </script>

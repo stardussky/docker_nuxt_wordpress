@@ -7,8 +7,6 @@
 
 <script>
 import { viewport } from '@/plugins/viewport/index'
-import ImagesLoaded from 'imagesloaded'
-import { mapActions } from 'vuex'
 
 export default {
     name: 'DefaultLayout',
@@ -24,19 +22,8 @@ export default {
             return style
         }
     },
-    mounted () {
-        this.START_LOADING((done) => {
-            /* eslint-disable no-unused-vars */
-            const loader = new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
-                done(-2)
-            })
-        })
-    },
     beforeDestroy () {
         this.$viewport.destroy()
-    },
-    methods: {
-        ...mapActions(['START_LOADING'])
     }
 }
 </script>

@@ -1,7 +1,8 @@
 export const state = () => ({
     loading: {
         minTime: 1000,
-        stack: 1
+        timeStamp: 0,
+        stack: 0
     }
 })
 
@@ -12,14 +13,18 @@ export const getters = {
 }
 
 export const mutations = {
-    SET_LOADING (state, num) {
-        state.loading.stack += num
+    SET_LOADING (state, num = 1) {
+        const { stack } = state.loading
+        if (num > 0 && stack === 0) {
+            state.loading.timeStamp = Date.now()
+        }
+        state.loading.stack = Math.max(state.loading.stack + num, 0)
     }
 }
 
 export const actions = {
-    async nuxtServerInit () {
-
+    async nuxtServerInit ({ dispatch }) {
+        await Promise.all([])
     },
     AJAX (context, options) {
         return new Promise((resolve, reject) => {
@@ -32,18 +37,10 @@ export const actions = {
             })
         })
     },
-    START_LOADING ({ state, commit }, callback) {
-        return new Promise((resolve) => {
-            const startTime = Date.now()
-            commit('SET_LOADING', 1)
-            callback.call(this, (num = -1) => {
-                const minTime = state.loading.minTime
-                const remainderTime = Date.now() - startTime
-                setTimeout(() => {
-                    commit('SET_LOADING', num)
-                    resolve(true)
-                }, Math.max(minTime - remainderTime, 0))
-            })
-        })
+    DONE_LOADING ({ state, commit }) {
+        const { minTime, timeStamp } = state.loading
+        window.setTimeout(() => {
+            commit('SET_LOADING', -1)
+        }, Math.max(minTime - (Date.now() - timeStamp), 0))
     }
 }

@@ -42,19 +42,20 @@ class Viewport {
         if (process.browser) {
             innerHeight = mobileInnerHeight()
             this.refresh()
+            this.refresh = debounce(this.refresh.bind(this), 200)
             window.addEventListener('resize', this.refresh)
         }
     }
 
-    refresh = debounce(() => {
+    refresh () {
         this.vpWidth = window.innerWidth
-        this.vpHeight = innerHeight()
+        this.vpHeight = innerHeight(true)
         this.device = detect()
 
         this.store.commit(`${moduleName}/SET_INFORMATION`, this.info)
 
         this.onResize?.()
-    }, 200)
+    }
 
     destroy () {
         this.store.unregisterModule(moduleName)

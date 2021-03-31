@@ -41,24 +41,24 @@ export default {
             { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
             { name: 'format-detection', content: 'telephone=no' },
             { name: 'apple-mobile-web-app-capable', content: 'yes' },
-            { hid: 'description', name: 'description', content: process.env.APP_DESC },
             { property: 'og:locale', content: 'en' },
             { property: 'og:type', content: 'website' },
+            { hid: 'description', name: 'description', content: process.env.APP_DESC },
             { hid: 'og:title', property: 'og:title', content: process.env.APP_TITLE },
             { hid: 'og:description', property: 'og:description', content: process.env.APP_DESC },
             { hid: 'og:url', property: 'og:url', content: process.env.APP_URL },
             { hid: 'og:site_name', property: 'og:site_name', content: process.env.APP_TITLE },
             { property: 'og:image:width', content: '1200' },
             { property: 'og:image:height', content: '630' },
-            { property: 'og:image', content: `${process.env.APP_URL}/og_img.jpg` },
+            { hid: 'og:image', property: 'og:image', content: `${process.env.APP_URL}/og_img.jpg` },
             { property: 'og:image:alt', content: process.env.APP_DESC },
             { name: 'twitter:card', content: 'summary_large_image' },
             { hid: 'twitter:description', name: 'twitter:description', content: process.env.APP_DESC },
             { hid: 'twitter:title', name: 'twitter:title', content: process.env.APP_TITLE },
-            { name: 'twitter:image', content: `${process.env.APP_URL}/og_img.jpg` },
+            { hid: 'twitter:image', name: 'twitter:image', content: `${process.env.APP_URL}/og_img.jpg` },
             { hid: 'name', itemprop: 'name', content: process.env.APP_TITLE },
             { itemprop: 'description', content: process.env.APP_DESC },
-            { itemprop: 'image', content: `${process.env.APP_URL}/og_img.jpg` }
+            { hid: 'image', itemprop: 'image', content: `${process.env.APP_URL}/og_img.jpg` }
         ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     },
@@ -88,10 +88,13 @@ export default {
         '@nuxtjs/style-resources'
     ],
     modules: [
+        ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }],
         '@nuxtjs/axios',
         '@nuxtjs/svg-sprite',
         'nuxt-rfg-icon',
-        'nuxt-i18n'
+        'nuxt-i18n',
+        'portal-vue/nuxt',
+        'nuxt-webfontloader'
     ],
     axios: {
         browserBaseURL: process.env.APP_API
@@ -123,6 +126,11 @@ export default {
         skipSettingLocaleOnNavigate: true,
         seo: false,
         vuex: false
+    },
+    webfontloader: {
+        google: {
+            families: ['Noto Sans TC:400, 700']
+        }
     },
     build: {
         plugins: [
