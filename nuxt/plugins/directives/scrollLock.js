@@ -5,14 +5,14 @@ export default function (Vue, options) {
         inserted (el, { value, ...binding }) {
             if (value) {
                 disableBodyScroll(el, {
-                    reserveScrollBarGap: true
+                    reserveScrollBarGap: true,
                 })
             }
         },
         componentUpdated (el, { value, ...binding }) {
             if (value) {
                 disableBodyScroll(el, {
-                    reserveScrollBarGap: true
+                    reserveScrollBarGap: true,
                 })
                 return
             }
@@ -20,6 +20,6 @@ export default function (Vue, options) {
         },
         unbind (el) {
             enableBodyScroll(el)
-        }
+        },
     })
 }

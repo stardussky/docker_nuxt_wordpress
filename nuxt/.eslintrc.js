@@ -2,10 +2,10 @@ module.exports = {
     root: true,
     env: {
         browser: true,
-        node: true
+        node: true,
     },
     parserOptions: {
-        parser: 'babel-eslint'
+        parser: 'babel-eslint',
     },
     extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'standard'],
     plugins: [],
@@ -14,6 +14,15 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         indent: ['error', 4, { SwitchCase: 1 }],
-        'vue/html-indent': ['error', 4, { baseIndent: 1 }]
-    }
+        'vue/html-indent': ['error', 4, { baseIndent: 1 }],
+        'comma-dangle': ['error', {
+            arrays: 'always-multiline',
+            objects: 'always-multiline',
+            imports: 'never',
+            exports: 'never',
+            functions: 'never',
+        }],
+        'no-unused-vars': 'warn',
+        'no-new': 'off',
+    },
 }

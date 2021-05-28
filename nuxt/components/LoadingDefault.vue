@@ -1,19 +1,22 @@
 <template>
-    <transition name="fade">
-        <div v-show="isLoading" class="loading">
-            Loading Default...
-        </div>
+    <transition name="loading">
+        <div
+            v-show="loadingConfig.type === 'default' && isLoading"
+            v-lock="loadingConfig.type === 'default' && isLoading"
+            class="loading"
+        />
     </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     name: 'Loading',
     computed: {
-        ...mapGetters(['isLoading'])
-    }
+        ...mapState(['loadingConfig']),
+        ...mapGetters(['isLoading']),
+    },
 }
 </script>
 
@@ -24,7 +27,12 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: black;
+    background-color: map-get($colors, black);
     z-index: 99;
+    cursor: wait;
+
+    > * {
+        pointer-events: none;
+    }
 }
 </style>

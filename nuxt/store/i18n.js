@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export const state = () => ({
-    messages: {}
+    messages: {},
 })
 
 export const mutations = {
@@ -10,5 +10,5 @@ export const mutations = {
             Vue.set(state.messages, locale, {})
         }
         state.messages[locale][key] = payload
-    }
+    },
 }

@@ -1,34 +1,46 @@
 <template>
     <div :style="globalStyle">
         <Nuxt />
+        <LoadingAjax />
         <LoadingDefault />
     </div>
 </template>
 
 <script>
-import { viewport } from '@/plugins/viewport/index'
+import { useStore, useRoute, inject, computed, watch } from '@nuxtjs/composition-api'
 
 export default {
     name: 'DefaultLayout',
-    computed: {
-        ...viewport.vpHeight,
-        globalStyle () {
+    setup (props, context) {
+        const store = useStore()
+        const route = useRoute()
+        const viewportInfo = inject('viewportInfo')
+
+        const globalStyle = computed(() => {
             const style = {
-                '--vh': '1vh'
+                '--vh': '1vh',
             }
             if (process.browser) {
-                style['--vh'] = `${window.innerHeight / this.vpHeight}vh`
+                style['--vh'] = `${window.innerHeight / viewportInfo.value.vpHeight}vh`
             }
             return style
+        })
+
+        watch(route, async (to, from) => {
+            await context.parent.$i18n.waitForPendingLocaleChange()
+            store.dispatch('WAIT_LOADING')
+        }, { immediate: true })
+
+        return {
+            viewportInfo,
+            globalStyle,
         }
     },
-    beforeDestroy () {
-        this.$viewport.destroy()
-    }
 }
 </script>
 
 <style lang='scss'>
+
 .button--green {
     display: inline-block;
     padding: 10px 30px;

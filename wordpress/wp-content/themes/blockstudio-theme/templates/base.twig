@@ -1,0 +1,19 @@
+<!doctype html>
+<html class="no-js no-svg" {{ site.language_attributes }}>
+	<head>
+        {% include 'html-header.twig' %}
+        {% block style %}{% endblock %}
+		{{ function('wp_head') }}
+	</head>
+	<body class="{{ body_class }}" data-template="base.twig">
+        <div >
+            {% include 'components/organisms/header.twig' %}
+            <main class="o-layout" role="main">
+                {% block content %}{% endblock %}
+            </main>
+            {% include 'components/organisms/footer.twig' %}
+        </div>
+        {% block script %}{% endblock %}
+        {{ function('wp_footer') }}
+	</body>
+</html>

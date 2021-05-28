@@ -12,5 +12,5 @@ app.use('/data', data)
 
 module.exports = {
     path: '/api',
-    handler: app
+    handler: app,
 }

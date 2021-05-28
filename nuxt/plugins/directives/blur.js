@@ -50,6 +50,6 @@ export default function (Vue, options) {
                 document.body.removeEventListener('click', event)
                 delete eventsHandler[ID]
             })
-        }
+        },
     })
 }

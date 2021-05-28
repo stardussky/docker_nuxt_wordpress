@@ -15,39 +15,43 @@
 </template>
 
 <script>
+import { useStore, onMounted } from '@nuxtjs/composition-api'
 import ImagesLoaded from 'imagesloaded'
-import { mapActions } from 'vuex'
 
 export default {
     name: 'PageEnd',
     beforeRouteEnter (to, from, next) {
         next((vm) => {
             vm.route = {
-                params: to.params,
-                query: to.query
+                params: { pathMatch: to.params.pathMatch },
+                query: to.query,
             }
         })
     },
-    middleware: 'loadingMiddleware',
+    meta: {
+        loading: true,
+    },
+    setup () {
+        const store = useStore()
+
+        onMounted(() => {
+            store.dispatch('ADD_LOADING_STACK', new Promise((resolve) => {
+                new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
+                    resolve()
+                })
+            }))
+        })
+    },
     data () {
         return {
-            route: null
+            route: null,
         }
     },
     computed: {
         localeData () {
             return this.$t(this.$translateUrl('all', this.route || this.$route).routeName)
-        }
+        },
     },
-    mounted(){
-        /* eslint-disable no-unused-vars */
-        const loader = new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
-            this.DONE_LOADING()
-        })
-    },
-    methods: {
-        ...mapActions(['DONE_LOADING'])
-    }
 }
 </script>
 

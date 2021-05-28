@@ -22,7 +22,7 @@ class acfe_single_meta{
     
     function __construct(){
         
-        $this->restricted = array('acf-field-group', 'acf-field', 'attachment', 'acfe-dbt', 'acfe-dop', 'acfe-dpt', 'acfe-dt', 'acfe-form');
+        $this->restricted = acfe_get_setting('reserved_post_types', array());
         
         $this->post_types = apply_filters('acfe/modules/single_meta/post_types', array());
         $this->taxonomies = apply_filters('acfe/modules/single_meta/taxonomies', array());
@@ -32,7 +32,7 @@ class acfe_single_meta{
         add_filter('acf/pre_load_meta',         array($this, 'pre_load_meta'),          999, 2);
         
         // Values
-        add_filter('acf/pre_load_metadata',     array($this, 'pre_load_metadata'), 		999, 4);
+        add_filter('acf/pre_load_metadata',     array($this, 'pre_load_metadata'),      999, 4);
         add_filter('acf/update_value',          array($this, 'update_value'),           999, 3);
         add_filter('acf/pre_update_metadata',   array($this, 'pre_update_metadata'),    999, 5);
         add_filter('acf/pre_delete_metadata',   array($this, 'pre_delete_metadata'),    999, 4);
@@ -45,23 +45,30 @@ class acfe_single_meta{
         add_action('acf/render_field_settings', array($this, 'field_setting'));
         
         // Post
-        add_action('load-post.php',         	array($this, 'load_post'));
-        add_action('load-post-new.php',     	array($this, 'load_post'));
+        add_action('load-post.php',             array($this, 'load_post'));
+        add_action('load-post-new.php',         array($this, 'load_post'));
         
         // Term
-        add_action('load-edit-tags.php',    	array($this, 'load_term'));
-        add_action('load-term.php',         	array($this, 'load_term'));
+        add_action('load-edit-tags.php',        array($this, 'load_term'));
+        add_action('load-term.php',             array($this, 'load_term'));
         
         // User
-        add_action('load-user-new.php',     	array($this, 'load_user'));
-        add_action('load-user-edit.php',    	array($this, 'load_user'));
-        add_action('load-profile.php',      	array($this, 'load_user'));
+        add_action('load-user-new.php',         array($this, 'load_user'));
+        add_action('load-user-edit.php',        array($this, 'load_user'));
+        add_action('load-profile.php',          array($this, 'load_user'));
     
         // Options
         //add_action('acf/options_page/submitbox_before_major_actions', array($this, 'load_options'));
         
+        // Revisions
+        add_filter('acf/pre_update_metadata',   array($this, 'revision_pre_update'),    10, 5);
+        add_filter('_wp_post_revision_fields',  array($this, 'revision_fields'),        10, 2);
+        
     }
     
+    /*
+     * Preload Meta
+     */
     function pre_load_meta($return, $post_id){
     
         if(acf_is_filter_enabled('acfe/meta/native_load'))
@@ -102,6 +109,13 @@ class acfe_single_meta{
         // Bail early if empty
         if(empty($acf))
             return $return;
+        
+        // Unslash values if needed
+        if(acf_is_filter_enabled('acfe/meta/unslash')){
+    
+            $acf = wp_unslash($acf);
+            
+        }
         
         // Prefix
         $prefix = $hidden ? '_' : '';
@@ -160,6 +174,9 @@ class acfe_single_meta{
     
         // Update store
         $store->set("$post_id:acf", $acf);
+        
+        // Unlash for preload on same page as update
+        acf_enable_filter('acfe/meta/unslash');
         
         // Update if not compiling
         if(!acf_is_filter_enabled("acfe/meta/compile/{$post_id}")){
@@ -366,8 +383,6 @@ class acfe_single_meta{
     
         }
         
-        
-        
         return false;
         
     }
@@ -417,7 +432,7 @@ class acfe_single_meta{
     
         // Decode $post_id for $type and $id.
         extract(acf_decode_post_id($post_id));
-    
+        
         // Update option
         if($type === 'option'){
     
@@ -440,12 +455,18 @@ class acfe_single_meta{
      */
     function field_setting($field){
         
+        // Exclude
+        $exclude = array('acfe_column', 'acfe_recaptcha', 'acfe_dynamic_message');
+        
+        if(in_array($field['type'], $exclude))
+            return;
+        
         // Settings
         acf_render_field_setting($field, array(
-            'label'             => __('Save as meta'),
+            'label'             => __('Save as individual meta'),
             'key'               => 'acfe_save_meta',
             'name'              => 'acfe_save_meta',
-            'instructions'      => __('Save the field an individual meta (useful for WP_Query).'),
+            'instructions'      => __('Save the field as an individual meta.'),
             'type'              => 'true_false',
             'required'          => false,
             'conditional_logic' => false,
@@ -569,6 +590,100 @@ class acfe_single_meta{
         }
         </script>
         <?php
+        
+    }
+    
+    /*
+     * Revision Pre Update
+     */
+    function revision_pre_update($null, $post_id, $name, $value, $hidden){
+        
+        if($name !== 'acf' || !wp_is_post_revision($post_id))
+            return $null;
+            
+        // Unslash for revision
+        $value = wp_unslash($value);
+        
+        extract(acf_decode_post_id($post_id));
+        
+        $prefix = $hidden ? '_' : '';
+        
+        // Update
+        update_metadata($type, $id, "{$prefix}{$name}", $value);
+        
+        return true;
+        
+    }
+    
+    /*
+     * Revision Fields
+     */
+    function revision_fields($fields, $post = null){
+        
+        // validate page
+        if( acf_is_screen('revision') || acf_is_ajax('get-revision-diffs') ) {
+            
+            // bail early if is restoring
+            if( acf_maybe_get_GET('action') === 'restore' ) return $fields;
+            
+            // allow
+            
+        } else {
+            
+            // bail early (most likely saving a post)
+            return $fields;
+            
+        }
+        
+        // vars
+        $post_id = acf_maybe_get($post, 'ID');
+        
+        // compatibility with WP < 4.5 (test)
+        if(!$post_id){
+            
+            global $post;
+            $post_id = $post->ID;
+            
+        }
+        
+        // get all postmeta
+        $meta = get_post_meta($post_id);
+        
+        // bail early if no meta
+        if(!$meta || !isset($meta['acf']))
+            return $fields;
+        
+        // hook into specific revision field filter and return local value
+        add_filter("_wp_post_revision_field_acf", array($this, 'revision_field'), 10, 4);
+        
+        $fields['acf'] = 'ACF';
+        
+        // return
+        return $fields;
+        
+    }
+    
+    /*
+     * Revision Field (acf)
+     */
+    function revision_field($value, $field_name, $post = null, $direction = false){
+        
+        // bail ealry if is empty
+        if(empty($value))
+            return $value;
+        
+        // value has not yet been 'maybe_unserialize'
+        $value = maybe_unserialize($value);
+        
+        // formatting
+        if(is_array($value)){
+            
+            $value = print_r($value, true);
+            
+        }
+        
+        // return
+        return $value;
         
     }
     

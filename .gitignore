@@ -3,10 +3,10 @@
 *.pem
 node_modules/
 
-wordpress/main
-wordpress/wp-content/*
+wordpress/*
+!wordpress/wp-content
+!wordpress/.gitkeep
+!wordpress/.htaccess
 wordpress/wp-content/themes/*
-!wordpress/wp-content/plugins
-!wordpress/wp-content/themes
-!wordpress/wp-content/themes/blockstudio
+!wordpress/wp-content/themes/blockstudio-theme
 

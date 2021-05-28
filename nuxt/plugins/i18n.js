@@ -1,15 +1,10 @@
 export default ({ app, store, route, error }, inject) => {
     const { i18n } = app
+
     app.nuxt.defaultTransition.beforeEnter = () => {
-        i18n.finalizePendingLocaleChange()
-    }
-    app.router.options.scrollBehavior = async (to, from, savedPosition) => {
-        if (to.name !== from.name) {
-            await i18n.waitForPendingLocaleChange()
-        }
+        app.i18n.finalizePendingLocaleChange()
     }
 
-    let currentLocale = i18n.locale
     const translateUrl = (routeName, { params = {}, query = {} } = {}) => {
         let url = `/api/lang/${routeName}`
         let paramsPrefix = ''
@@ -17,9 +12,12 @@ export default ({ app, store, route, error }, inject) => {
 
         const paramsEntries = Object.entries(params)
         if (paramsEntries.length) {
-            const [[key, value]] = paramsEntries
+            let [[key, value]] = paramsEntries
+            if (!process.browser) {
+                value = encodeURIComponent(value)
+            }
             url += `/${value}`
-            paramsPrefix += `_${key}`
+            paramsPrefix += `_${key}${value}`
         }
 
         const queryEntries = Object.entries(query)
@@ -27,6 +25,9 @@ export default ({ app, store, route, error }, inject) => {
             url += '?'
             queryPrefix += '_'
             queryEntries.forEach(([key, value]) => {
+                if (!process.browser) {
+                    value = encodeURIComponent(value)
+                }
                 url += `${key}=${value}&`
                 queryPrefix += `${key}${value}`
             })
@@ -40,7 +41,8 @@ export default ({ app, store, route, error }, inject) => {
     const setLocaleData = async (baseName, request) => {
         const { url, routeName } = translateUrl(baseName, request)
         const temp = store.state.i18n.messages
-        const hasTemp = temp[currentLocale]?.[routeName]
+        const hasTemp = temp[i18n.locale]?.[routeName]
+
         if (!hasTemp) {
             // server side
             const { status, data, ...res } = await store.dispatch('AJAX', { url })
@@ -50,11 +52,13 @@ export default ({ app, store, route, error }, inject) => {
                     store.commit('i18n/SET_MESSAGE', {
                         locale,
                         key: routeName,
-                        payload: data[locale]
+                        payload: data[locale],
                     })
                 }
             } else {
-                // error({ statusCode: status, message: res.error })
+                error({ statusCode: status, message: res.error })
+            }
+            if (res.error) {
                 console.warn(`${status} ${res.error}`)
             }
             return
@@ -64,10 +68,6 @@ export default ({ app, store, route, error }, inject) => {
             i18n.mergeLocaleMessage(locale, { [routeName]: data[routeName] })
         }
     }
-    const switchLocalePath = (locale) => {
-        currentLocale = locale
-        return app.switchLocalePath(locale)
-    }
 
     // client side
     if (process.browser) {
@@ -76,5 +76,4 @@ export default ({ app, store, route, error }, inject) => {
 
     inject('translateUrl', translateUrl)
     inject('setLocaleData', setLocaleData)
-    inject('switchLocalePath', switchLocalePath)
 }

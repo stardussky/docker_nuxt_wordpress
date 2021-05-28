@@ -25,17 +25,20 @@
                 <nuxt-link class="button--grey" :to="localePath('/about', $i18n.locale)">
                     {{ localeData.about }}
                 </nuxt-link>
+                <nuxt-link class="button--grey" :to="localePath('/news', $i18n.locale)">
+                    {{ localeData.news }}
+                </nuxt-link>
             </div>
             <div class="lang">
                 <nuxt-link
                     class="button--grey"
-                    :to="$switchLocalePath('zh')"
+                    :to="switchLocalePath('zh')"
                 >
                     中文
                 </nuxt-link>
                 <nuxt-link
                     class="button--grey"
-                    :to="$switchLocalePath('en')"
+                    :to="switchLocalePath('en')"
                 >
                     EN
                 </nuxt-link>
@@ -45,53 +48,57 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { useStore, onMounted } from '@nuxtjs/composition-api'
 import ImagesLoaded from 'imagesloaded'
 
 export default {
-    name: 'Index',
-    middleware: 'loadingMiddleware',
+    name: 'PageIndex',
+    meta: {
+        loading: true,
+    },
+    setup () {
+        const store = useStore()
+
+        onMounted(() => {
+            store.dispatch('ADD_LOADING_STACK', new Promise((resolve) => {
+                new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
+                    resolve()
+                })
+            }))
+        })
+    },
     head () {
-        const i18nSeo = this.$nuxtI18nSeo({ addSeoAttributes: true })
-        const { og } = this.localeData
+        const i18nSeo = this.$nuxtI18nHead({ addSeoAttributes: true })
+        const { seo } = this.localeData
         return {
-            title: og?.title,
+            title: seo?.title,
             htmlAttrs: {
-                ...i18nSeo.htmlAttrs
+                ...i18nSeo.htmlAttrs,
             },
             meta: [
-                { hid: 'og:title', property: 'og:title', content: og?.title },
-                { hid: 'og:site_name', property: 'og:site_name', content: og?.title },
-                { hid: 'name', itemprop: 'name', content: og?.title },
-                { hid: 'twitter:title', name: 'twitter:title', content: og?.title },
-                { hid: 'description', name: 'description', content: og?.desc },
-                { hid: 'og:description', property: 'og:description', content: og?.desc },
-                { hid: 'twitter:description', name: 'twitter:description', content: og?.desc },
+                { hid: 'og:title', property: 'og:title', content: seo?.title },
+                { hid: 'og:site_name', property: 'og:site_name', content: seo?.title },
+                { hid: 'name', itemprop: 'name', content: seo?.title },
+                { hid: 'twitter:title', name: 'twitter:title', content: seo?.title },
+                { hid: 'description', name: 'description', content: seo?.desc },
+                { hid: 'og:description', property: 'og:description', content: seo?.desc },
+                { hid: 'twitter:description', name: 'twitter:description', content: seo?.desc },
                 { hid: 'og:url', property: 'og:url', content: `${process.env.APP_URL}/${this.getRouteBaseName(this.$route)}` },
-                { hid: 'og:image', property: 'og:image', content: og?.thumb },
-                { hid: 'twitter:image', name: 'twitter:image', content: og?.thumb },
-                { hid: 'image', itemprop: 'image', content: og?.thumb },
-                ...i18nSeo.meta
+                { hid: 'og:image', property: 'og:image', content: seo?.thumb },
+                { hid: 'twitter:image', name: 'twitter:image', content: seo?.thumb },
+                { hid: 'image', itemprop: 'image', content: seo?.thumb },
+                ...i18nSeo.meta,
             ],
             link: [
-                ...i18nSeo.link
-            ]
+                ...i18nSeo.link,
+            ],
         }
     },
     computed: {
         localeData () {
             return this.$t('index')
-        }
+        },
     },
-    mounted () {
-        /* eslint-disable no-unused-vars */
-        const loader = new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
-            this.DONE_LOADING()
-        })
-    },
-    methods: {
-        ...mapActions(['DONE_LOADING'])
-    }
 }
 </script>
 

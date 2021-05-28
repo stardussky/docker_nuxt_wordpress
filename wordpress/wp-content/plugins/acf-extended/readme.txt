@@ -1,11 +1,11 @@
 ﻿=== Advanced Custom Fields: Extended ===
 Contributors: hwk-fr
-Donate link: https://ko-fi.com/acfextended
+Donate link: https://www.acf-extended.com
 Tags: acf, custom fields, meta, admin, fields, form, repeater, content
 Requires at least: 4.9
-Tested up to: 5.5
+Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 0.8.7.4
+Stable tag: 0.8.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,6 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 
 == 🤟 Philosophy ==
 
-* 100% free
 * Seamless integration
 * No extra menu, ads or notices
 * Built by developers, for developers
@@ -57,6 +56,16 @@ All-in-one enhancement suite that improves WordPress & Advanced Custom Fields.
 * [Feature Request](https://wordpress.org/support/plugin/acf-extended)
 * [Reviews](https://wordpress.org/support/plugin/acf-extended/reviews/#new-post)
 * [Donation](https://ko-fi.com/acfextended)
+
+== 💎 ACF Extended Pro ==
+
+> *What an adventure! Today ACF Extended celebrates its 2 years of existence, 30K+ install & 300K+ downloads. The most fervent supporters among the community know that ACF Extended Pro was launched last month. Today, I am proud to announce it to everyone.*
+>
+> *First thing first, be assured that all current free features will remain free and maintained. The Pro version will guarantee better support, more updates, as well as additional cutting-edge features.*
+>
+> *[Read more on the official announcement post](https://www.acf-extended.com/blog/introducing-acf-extended-pro)*
+>
+> *K. Chmielewski - ACF Extended developer*
 
 == 📺 Flexible Content Showcase ==
 
@@ -267,7 +276,7 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * Thanks to [Jaakko S.](https://twitter.com/jsaarenk) for his support & tests
 * Thanks to [Renan A.](https://twitter.com/altendorfme) for his support & tests
 
-== 🥰 Donators ==
+== 🥰 Donors ==
 
 * Thanks to RavenSays
 * Thanks to Dave A.
@@ -283,6 +292,12 @@ ACF Extended adds a new layer of compatibility for WPML. ACF Options Pages and a
 * Thanks to Cody R.
 * Thanks to Jamie
 * Thanks to Dave A.
+* Thanks to Paul M.
+* Thanks to David B.
+* Thanks to Swingjac
+* Thanks to Erik
+* Thanks to Giancarlo P.
+* Thanks to Geuer M.
 
 == Installation ==
 
@@ -670,7 +685,316 @@ function my_acfe_modules(){
 
 == Changelog ==
 
+= 0.8.8.3 =
+
+**ACF Extended Pro 0.8.8.3:**
+
+* Field: Added "Image Selector" field
+* Field: Added "Image Sizes Selector" field
+* Field: Column - Added "Column Auto" size setting
+* Field: Column - Added "Column Border" & "Fields Border" settings
+* Field: Color Picker - Fixed CSS Position of the Color Picker in palette mode
+* Module: Global Conditional Logic - Fixed multiple Conditional Groups not being correctly detected
+* Module: Templates - Enhanced Templates Values detection
+* Module: Templates - Added `acf/init` hook in the PHP Export code
+* Module: Templates - Added Template Detection on Term & Post Edit screens
+* Module: Templates - Fixed potential PHP notice in the Template UI sidebar when using a custom location
+* Fields: Added missing ACF Conditional Logic rules on Pro Fields (Block Types, Color Picker, Field Groups etc...)
+
+**ACF Extended Basic 0.8.8.3:**
+
+* Field: Column - Upgraded CSS to use Flexbox
+* Module: Forms - Fixed Honeypot Field not being correctly rendered
+* Module: Forms - Fixed potential slashes on the Success Page when using Single Meta Save
+* Module: Forms - Fixed potential slashes in e-mail content & fields
+* Module: Forms - Added context & variations to the `acfe/form/render` hooks
+* Module: Multilang - Enhanced WPML String Translation Registration for all modules
+* Module: Dev Mode - The module now check the `acf_current_user_can_admin()` function
+* Module: Dev Mode - Tweaked CSS margin of the Bulk Action select
+* Module: Single Meta Save - Disabled "Save as individual meta" on Column, Google reCaptcha & Dynamic Message fields
+* Module: Single Meta Save - Fixed WP Revisions Comparison compatibility
+* Module: Single Meta Save - Fixed slashes in WP Revisions
+* Modules: Fixed Draft Post Status when an item is reverted from Trash
+* General: Local Meta - Enhanced preload Post ID logic
+
+= 0.8.8.2 =
+
+**ACF Extended Pro 0.8.8.2:**
+
+* Field: Added Advanced "Color Picker" field settings with RGBA support, Palette display style, Custom predefined colors & Allow null
+* Field: Added "Date Range Picker" field with Custom ranges, No weekends, Min/max date & Min/max days support
+* Field: Flexible Content Grid System - Fixed sub Flexible Content Grid CSS bug
+* Field: Flexible Content Grid System - Tweaked `get_flexible_grid_class()` prefix
+* Field: Fields Selector - Added "Field Name" return value setting
+* Field: Post Field - Fixed Permalink "Save" & "Cancel" missing text when editing a permalink
+* Module: Added "Force Sync" module allowing to automatically sync Json Files to DB with the newest version
+* Module: Dynamic Template - Improved instruction
+* Module: Global Conditional Logic - Fixed compatibility with Terms & Users screen when Enhanced UI is disabled
+
+**ACF Extended Basic 0.8.8.2:**
+
+* Field: Clone - Fixed internal ACFE module field groups which where selectable in clone
+* Field: Google reCaptcha - Renamed the field to Google reCaptcha
+* Field: Post Object - Fixed duplicated post creation when using "Custom Value" setting
+* Module: Forms - Fixed Clone Render when using "Override Form Render" settings
+* Module: Forms - Fixed "Redirect Action" named hook not working with a custom action name
+* Module: Forms - Added render actions hooks
+* Module: Forms - Fixed `acfe_import_form()` function
+* Module: Block Types - Changed the "Mode" setting default value to "Preview", as in the documentation
+* Module: Multilang - Options Post ID `options` can now be excluded from the module translation
+* Module: Multilang - Added `acfe/modules/multilang/exclude_options` filter to exclude specific Options Post ID from module translation
+* Module: Multilang - Added `acfe/modules/multilang/include_options` filter to include specific Options Post ID from module translation
+* Module: Multilang - Deprecated the `acfe/modules/multilang/options` filter
+* Module: Multilang - WPML string translations now use `wpml_translate_single_string` instead of `__()`
+* Module: Settings UI - Fixed potential duplicated table `thead` columns
+* Module: Enhanced UI - Fixed possible metaboxes screen name collision with taxonomy name
+* General: ACFE Modal - Fixed `show_field` on modal open
+* General: ACFE Modal - Fixed possible duplicate field instructions in repeaters
+* General: The `acfe_get_post_id()` helper now correctly retrieve the Post ID in ACF Block Types
+* General: Fixed `get_fields()` calls in `acfe/save` hooks when a bidirectional value is set
+* General: Enhanced Local Meta logic
+* General: Enhanced `acfe/save` & `acfe/validate_save` hooks logic
+* General: Code format cleanup
+* Compatibility: Added ACFE Field Types to WP GraphQL ACF plugin
+
+= 0.8.8.1 =
+
+**ACF Extended Pro 0.8.8.1:**
+
+* Module: Added "Screen Layouts" module allowing to customize Post Edit Screen up to 3 columns
+* Field: Flexible Content - Added "Container Size" setting in the `get_flexible_grid()` helper
+* Field: "Menus" & "Menu Locations" - Added compatibility with min/max items settings
+* Field: Added "ACFE Template" Selector field
+* Field: Added "ACF Block Types" Selector field
+* Field: Added "ACF Field Groups" Selector field
+* Field: Added "ACF Field Types" Selector field
+* Field: Added "ACF Fields" Selector field
+* Field: Added "ACF Options Pages" Selector field
+* Field: Post Field - Fixed field type category translation
+
+**ACF Extended Basic 0.8.8.1:**
+
+* Field: reCaptcha - Fixed missing field Site key & Secret Key on field render
+* Fields: Fields types are now sorted in ASC order in the Field Group UI
+* Fields: Added "ACF" & "WordPress" Field Types Categories in the Field Group UI to declutter the "Relational" category
+* Module: Forms - Fixed empty `get_field()` used inside an action when a previous action saved additional meta
+* Module: Forms - Fixed Form Name not being correctly updated when changed
+* Locations: Post Type Archive - Added `acfe/post_type_archive_capability` filter to change Archive Page admin menu capability
+* Locations: Post Type Archive - Admin menu item on front-end now correctly check the user permissions
+* Field Groups: Permissions - Fixed undefined index notice when using the permission setting
+* General: Fixed "ACF Title" metabox position to become usable with drag&drop function when empty (while waiting for ACF to fix it)
+
+= 0.8.8 =
+
+**ACF Extended Pro 0.8.8:**
+
+* Field: Flexible Content - Added Grid System setting, `get_flexible_grid()` & `get_flexible_grid_class()` helpers
+* Field: Added Menus Selector
+* Field: Added Menu Locations Selector
+* Field: File - Added "Button Label" setting to customize the "Add File" text
+* Field: File Multiupload - The field now always return an array when multiupload is enabled
+* Field: File Multiupload - Fixed missing ID format value
+* Field: Post Field - Added "Taxonomies" field type allowing to move Taxonomies metaboxes
+* Field: Post Field - Fixed "Content" field type width when used inside a modal
+* Field: Relationship/Post Object - Fixed Inline Post Creation/Edit which wasn't working correctly with Gutenberg
+* Field: Relationship/Post Object - Fixed Inline Post Creation/Edit which wasn't working correctly with Attachment post type
+* Field: WYSIWYG - Fixed source code textarea border flickering during modal initialization
+* Field Groups: Added Menu Item Depth Location
+* Field Groups: Added Menu Item Type Location
+* Module: Settings - Enhanced UI, description, tabs. Settings now display default and registered values difference
+* Module: Settings - Added Enable/Disable features allowing to switch modules directly from the UI
+* Module: Settings - Added Export (PHP & Json) / Import tools
+* Module: Developer Mode - Added Post / Term / User / Options Page Object Data overview
+* Module: Dynamic Block Types - Added "Active" setting allowing to enable/disable one specific block type
+* Module: Dynamic Forms - Added "Active" setting allowing to enable/disable one specific form
+* Module: Dynamic Options Pages - Added "Active" setting allowing to enable/disable one specific options page
+* Module: Dynamic Post Types - Added "Active" setting allowing to enable/disable one specific post type
+* Module: Dynamic Taxonomies - Added "Active" setting allowing to enable/disable one specific taxonomy
+* Module: Dynamic Templates - Added "Active" setting allowing to enable/disable one specific template
+* Module: Dynamic Templates - Fixed required fields which weren't always disabled in the template view
+* Module: Dynamic Templates - Fixed a bug with Flexible Content Preview when preloading values
+* Module: Dynamic Templates - Removed Field Group Hide on Screen effects in the Template UI
+* Module: Dynamic Templates - Added Export (PHP & Json) / Import tools
+* Module: Dynamic Templates - Added `acfe_add_local_template()` function to locally register template values
+* Module: Dynamic Forms - Option Action - Fixed code example labels
+* Module: Global Field Condition - Fixed duplicated operators
+
+**ACF Extended Basic 0.8.8:**
+
+* Field: Flexible Content - Added Modal Select size setting
+* Field: Flexible Content - Added Modal Edit size setting
+* Field: Flexible Content - Added Modal Edit size setting for each layouts
+* Field: Flexible Content - Reworked code base & Enhanced Field Settings UI
+* Field: Flexible Content - Fixed placeholder height when the layout is toggeled and the preview is reloaded
+* Field: Flexible Content - Added modal Select/Edit CSS classes with field name, key & layout name for developers
+* Field: Advanced Link - Fixed error if the field was using a Term which has been deleted
+* Field: Button - Added name field attribute to be able to retrieve the button click during `acf/save_post`
+* Field: Checkbox/Radio - Fixed `## Title` Group Options not working on the front-end
+* Field: Code Editor - Fixed CSS `break-work` property when used in repeater
+* Field: Columns - Re-introduced the field in Terms/Users views when Enhanced UI module is enabled
+* Field: Conditional Logic - Fixed "contains" operator which would not work properly on Forms/Post Statuses/Post Types/Taxonomies/Taxonomy Terms/User Roles fields when using Checkbox/Radio field type
+* Field: Dynamic Message - Added `render` field setting to be used as a callback to write content in PHP
+* Field: Forms/Post Statuses/Post Types/Taxonomies/Taxonomy Terms/User Roles - Fixed Multiple Lines "Default Value" setting now working correctly
+* Field: Group/Clone - Fixed modal edit which included the instruction in the modal title when using the Modal Edit setting
+* Field: Image/File - Added file upload validation when using Basic Upload (temporary fix while waiting for ACF to fix officially)
+* Field: Image/File - Added "Default" option in the "Uploader Type" setting to fallback to the native behavior
+* Field: Image - Fixed "use as Featured Image" which was wrongly saved during page preview
+* Field: Select2 - Added dropdown CSS classes with field name & key for developers
+* Module: Enhanced UI - Fixed WPMU missing "Add User" button in "Add User" view
+* Module: Enhanced UI - Fixed Woocommerce Product Category CSS when using Enhanced UI
+* Module: Renamed `acfe/modules/dynamic_block_types` setting to `acfe/modules/block_types`
+* Module: Renamed `acfe/modules/dynamic_forms` setting to `acfe/modules/forms`
+* Module: Renamed `acfe/modules/dynamic_options_pages` setting to `acfe/modules/options_pages`
+* Module: Renamed `acfe/modules/dynamic_post_types` setting to `acfe/modules/post_types`
+* Module: Renamed `acfe/modules/dynamic_taxonomies` setting to `acfe/modules/taxonomies`
+* Module: Dynamic Block Types/Forms/Options Pages/Post Types/Taxonomies - Enhanced code base & UI
+* Module: Dynamic Block Types/Forms/Options Pages/Post Types/Taxonomies - Added Export Json / PHP in the row action
+* Module: Dynamic Block Types/Forms/Options Pages/Post Types/Taxonomies - Added Export Json / PHP bulk actions
+* Module: Dynamic Block Types/Forms/Options Pages/Post Types/Taxonomies - Fixed possible desync when switching to draft post status
+* Module: Dynamic Post Types/Taxonomies - Added "View" in the row action
+* Module: Dynamic Post Types/Taxonomies/WP Options/Dev Mode now correctly use the ACF `show_admin` setting
+* Module: Dynamic Forms - Fixed Clone Fields filter when using Custom HTML Render
+* Module: Dynamic Forms - Deprecated `{current:post|term|user|author}` Template Tags for a more simple version `{post|term|user|author}`
+* Module: Dynamic Forms - Added compatibility with Flexible Content Preview Mode & Gutenberg/ACF Block Type Preview mode
+* Module: Dynamic Forms - Added a 2nd parameter to `acfe_form_get_action()` to directly retrieve the key value
+* Module: Dynamic Forms - Fixed `acfe_add_validation_error()` which wasn't working correctly with field names in the Action Validation Hooks
+* Module: Dynamic Forms - User Login Action - Added `acfe/form/validation/user/login_errors` filter to change the default error messages
+* Module: Dynamic Forms - Fixed `acfe_import_dynamic_form()` function to programmatically import a form
+* Module: Settings - Enhanced UI and updated the module list
+* General: Helpers - Deprecated `acfe_form_is_front()` & `acfe_form_is_admin()` in favor of `acfe_is_front()` & `acfe_is_admin()`
+* General: Helpers - Added `acfe_get_post_id()` function as an universal solution to always retrieve the correct ACF Post ID in front-end and back-end
+* General: Hooks - Added `acfe/save_post` hook and variations on page submission. Compatible with `get_field()`, `have_rows()` etc...
+* General: Hooks - Added `acfe/validate_save_post` hook and variations to validate the whole page. Compatible with `get_field()`, `have_rows()` etc...
+* General: Hooks - Deprecated `acfe/load_field_front`. `acfe/load_field` should be used with `acfe_is_front()` instead
+* General: Hooks - Deprecated `acfe/load_field_admin`. `acfe/load_field` should be used with `acfe_is_admin()` instead
+* General: Modal - Fixed CSS `z-index` overlay when using "Edit in Modal" feature inside a WordPress Widget
+* General: Updated `acfe` option data structure
+* General: Compatibility - Fixed Elementor which list all private ACF Extended Field Groups in the "Dynamic ACF tags" dropdown
+* General: Compatibility - Fixed Error in Field Groups UI when trying to use ACF Extended with ACF Free
+* General: Compatibility - Fixed Gutenberg "seamless" class on "Seamless" Field Group style to match WP/ACF style
+* General: Compatibility - Fixed PHP 8 deprecated notices
+* General: Compatibility - Fixed YOAST Rewrite & Republish feature when using the Authorbox UI
+
+= 0.8.7.6 =
+
+**ACF Extended Pro 0.8.7.6:**
+
+* Field Groups: WP Settings Locations - Added new "General Settings", "Writing", "Reading", "Discussion", "Media" & "Permalinks" locations
+* Module: Global Field Condition - Fixed compatibility with required fields
+* Module: Dynamic Templates - Added Polylang/WPML compatibility
+* Module: Dynamic Templates - Improved code logic & compatibility with Clone fields
+* Module: Dynamic Forms - Added "Options Page Action". Allowing to Save & Load meta to ACF Options Page
+* Module: Dynamic Forms - Fixed "Email Action" to correctly use Multiple Upload files
+* Module: Dynamic Forms - Fixed Multiple Upload files on front-end for not logged users
+* Module: Dynamic Forms - Fixed Multiple Upload & Dropzone in Basic mode on Firefox
+* Field: Relationship/Post Object - Fixed Inline Post Creation when only one post type was allowed in the field setting
+
+**ACF Extended Basic 0.8.7.6:**
+
+* Module: Enhanced UI - Improved logic, compatibility and style. ACF Field Groups can now use any position and any style in Users & Terms views
+* Module: Enhanced UI - Fixed Terms WPML widget compatibility
+* Module: Dynamic Post Types - "Archive Page" submenu is now correctly translated
+* Module: Dynamic Forms - Fixed values loaded from Clones Fields in Seamless display
+* Module: Dynamic Forms - Enhanced Image/File format value when using the `{field:my_file}` Template Tag
+* Module: Multilang - Added "Current Language" text widget in Options Page submit box
+* Module: Multilang - Polylang - Added fallback to "Default Language" in Options Page values if a translated option was never saved before
+* Module: Multilang - Polylang - Fixed "Dynamic Forms" & "Dynamic Template" post types detection
+* Module: PHP AutoSync - Fixed Local Field Group detection when using a custom submenu on the ACF Field Group menu
+* Core: Added default `acf.data.acfe` in core JS
+* Core: Fixed ACF Pro 5.8 JS compatibility
+* Core: Fixed Google Map suggestions z-index CSS in modals
+
+= 0.8.7.5 =
+
+**ACF Extended Pro 0.8.7.5:**
+
+* Module: Added Enhanced Field Group UI module.
+* Module: Added Classic Editor module. Disabled by default, can be enabled using `acf_update_setting('acfe/modules/classic_editor', true)`
+* Fields: Added "Instruction Placement" override setting. This will allow to set specific instruction placement for any field. The Advanced Field Group Setting must be enabled
+* Fields: Added "Instructions Read More" setting allowing to add collapsed instructions. You may use the `---` or `---Learn more---` template tags to split the instruction
+* Fields: Added Quick Visibility Settings widget allowing hide the field, label, instructions or required settings based on the screen: Everywhere, administration or front-end. The Advanced Field Group Setting must be enabled
+* Fields: Added inline hooks callbacks for the `acf_add_local_field_group()` function. Allowing to hook in `load_field`, `prepare_field`, `render_field`, `load_value`, `update_value`, `format_value`, `validate_value`, `delete_value`
+* Module: Global Fields Condition can now be used as a specific field conditional logic
+* Field Groups: Added new "Hide on Screen" settings: "Hide Title", "Hide save draft", "Hide preview", "Hide post status", "Hide visibility", 'Hide publish date", "Hide move to trash", "Hide publish", "Hide minor publishing actions", "Hide misc publishing actions" & "Hide major publishing actions"
+* Field: File - Added "Allow Multiple Upload", "Preview Style", "File Count", "Min/max allowed files", "Custom Upload Folder", "Stylised Button" (for Browser uploader) and built-in dropzone (for Browser uploader)
+* Field: WYSIWYG - Added "Disable Native WP Style", "Custom Stylesheet Enqueue", "AutoResize", "Max Height", "Codemirror as Source Editor via the `source_code` button" & "Valid Elements" settings
+* Field: WYSIWYG - Added a new "Basic Enhanced" Toolbar which automatically includes the new `source_code` (Code Mirror source editor) and `wp_add_media` buttons
+* Field: WYSIWYG - Fixed the "Path" render when using the "Transparent Background" setting
+* Field: Post Field - Added "Instructions" setting
+* Field: Tab - Added "No Preference Save" setting to not save latest opened tab when refreshing the page
+* Field: Datepicker: Added "Placeholder", "Min/max Date" & "No Weekends" settings
+* Field: Datetime picker: Added "Placeholder", "Min/max Date", "Min/max Time", "Min/max H:i:s" & "No Weekends" settings
+* Field: Time picker: Added "Placeholder", "Min/max Time" & "Min/max H:i:s" settings
+* Core: Added the `ACFE_PRO_KEY` constant allowing to set the licence key in PHP
+
+**ACF Extended Basic 0.8.7.5:**
+
+* Field Groups: Instruction Placement - Added "Above Fields" setting
+* Field Groups: Instruction Placement - "Tooltip" instructions can now be clicked on mobile device
+* Field Groups: Hide on screen - All field groups "Hide on screen" settings are now merged, instead of using only the first field group setting
+* Field Groups: Advanced Settings - Enhanced code logic
+* Field Groups: Permissions setting is now displayed when the Advanced Field Group setting is enabled
+* Field: Select - Removed the `- -` characters in the placeholder
+* Field: Taxonomy Terms - Fixed "Load Terms" setting when using the radio field type
+* Field: Flexible Content - Fixed & enhanced the "Minimum" setting badge duplication when using the "Modal Select" setting
+* Field: Flexible Content - Fixed `$is_preview` hard reset in the `get_flexible()` function. This will allow to use `get_flexible()` inside an another `get_flexible()` and correctly get the `$is_preview` variable
+* Field: Flexible Content - Fixed a potential PHP notice when adding a new Flexible Content
+* Field: Hidden Input - Value can now be used as conditional setting
+* Field: Datetime Picker - Value can now be used as conditional setting
+* Field: Time Picker - Value can now be used as conditional setting
+* Field: File - Renamed the `acfe_uploader` setting back to the native `uploader` name
+* Field: Image - Renamed the `acfe_uploader` setting back to the native `uploader` name
+* Fields: Permissions settings are now displayed when the Advanced Field Group setting is enabled
+* Fields: Enhanced Advanced Settings & Advanced Validation UI
+* Module: Dev Mode - Fixed deprecated `acf_get_term_post_id()` usage
+* Module: Enhanced UI - Enhanced the responsive CSS
+* Module: Enhanced UI - Fixed WPMU styles
+* Module: Enhanced UI - Enhanced User Profiles compatibility with Woocommerce plugin
+* Module: Enhanced UI - Enhanced Terms Views compatibility with Woocommerce, Yoast, WPML & User Role Editor plugins
+* Module: Dynamic Forms - Added the new "Redirect Action"
+* Module: Dynamic Forms - Added the new `acfe_form_get_action('post')` function to retrieve the previous Action output within an Action
+* Module: Dynamic Forms - Deprecated the "Redirection" setting. The new "Redirect Action" should be used instead
+* Module: Dynamic Forms - Deprecated the `{query_var:my-post}` Template Tag to retrieve previous Action output. The new `{action:post}` Template Tag should be used instead
+* Module: Dynamic Forms - Deprecated the `{current:form:key}` Template Tag. The new `{form:key}` Template Tag should be used instead
+* Module: Dynamic Forms - Deprecated the `acfe/form/query_var/email` hook & variations. The new `acfe/form/output/email` hook should be used instead
+* Module: Dynamic Forms - Deprecated the `acfe/form/query_var/post` hook & variations. The new `acfe/form/output/post` hook should be used instead
+* Module: Dynamic Forms - Deprecated the `acfe/form/query_var/term` hook & variations. The new `acfe/form/output/term` hook should be used instead
+* Module: Dynamic Forms - Deprecated the `acfe/form/query_var/user` hook & variations. The new `acfe/form/output/user` hook should be used instead
+* Module: Dynamic Forms - Deprecated the `acfe_form_is_submitted()` function. The new `acfe_is_form_success()` function should be used instead
+* Module: Dynamic Forms - Enhanced Actions "Code Examples"
+* Module: Dynamic Forms - Updated "Cheatsheet" tab
+* Module: Dynamic Forms - Multiple clicks on the submit button are now prevented (Also apply to the native ACF Forms)
+* Module: Dynamic Forms - Applying Date, Date time & time pickers fields input class settings
+* Module: Dynamic Forms - Removed a potential "Draft Post" if the "Post Action" was cancelled during the `acfe/form/submit/post_args` hook
+* Module: Dynamic Block Types - Added "Anchor" supports setting
+* Module: Dynamic Post Types - "Menu position" setting now correctly use `null` as default value (as in the `register_post_type()` documentation)
+* Module: Single Meta Save - Fixed slashed values after saving a menu in the WP Nav Menu Items screen
+* Module: Single Meta Save - Fixed typo in instruction
+* Tools: Fixed the empty message when clicking "Import" without selecting a field group file
+* General: Fixed ACF Updates box CSS
+* General: Updated the donors list
+* General: Enhanced assets build tools, now using Gulp, Postcss, Autoprefixer & Minifiers
+* Core: Enhanced JS code base
+* Core: Enhanced Enqueue
+
 = 0.8.7.4 =
+
+**ACF Extended Pro 0.8.7.4:**
+
+* Module: Added "Dynamic Templates" module allowing to manage advanced field groups default values based on post type, taxonomy, user etc...
+* Field: Google Map - Added "Preview", "Height", "Zoom", "Min/Max Zoom", "Marker Image", "Map Type", "Hide UI", "Hide Zoom", "Hide Map Type", "Hide Fullscreen", "Hide Streetview", "Map Style", "API Key" settings
+* Field: WYSIWYG - Added "Height", "Remove path", "Disable resize", "Menu bar", "Transparent editor", "Merge Toolbars", "Customize Toolsbars" settings
+* Field: Post Object - Added "Inline Post Edit" & "Inline Post Creation" settings
+* Field: Relationship - Added "Inline Post Edit" & "Inline Post Creation" settings
+* Field: Post Field - Added field, allowing to move native WP Post fields: Attributes, Author, Comments, Content, Date, Discussion, Excerpt, Featured Image, Name, Permalink, Preview, Revisions, Revisions list, Status, Title, Trackbacks, Visibility inside a field group
+* Field Groups: Post Locations - Added "Post Author", "Post Author Role", "Post Date", "Post Date Time", "Post Path", "Post Screen", "Post Slug", "Post Time", "Post Title" conditional rules
+* Field Groups: Taxonomy Locations - Added "Taxonomy Term", "Taxonomy Term name", "Taxonomy Term Parent", "Taxonomy Term Slug", "Taxonomy Term Type" conditional rules
+* Field Setting: Added "Global Field Condition" setting allowing to use the field value as a Field Group conditional rule
+* Field Setting: Added "Required Message" setting allowing to customize the field required message
+* Field Setting: Added "Min/max" setting allowing to customize the minimum & maximum items for the following fields: Checkbox, Post Object, Select, Taxonomy, Forms, Post Statuses, Post Types, Taxonomies, Taxonomy Terms, User Roles
+
+**ACF Extended Free 0.8.7.4:**
+
 * Module: Json AutoSync - Fixed an issue where json file would not be updated when the field group was created without ACF Extended (Json Sync checkbox was unchecked)
 * Module: Dynamic Forms - Added the ability to pass an array to the `acfe_form()` function allowing to override settings
 * Module: Dynamic Forms - Fixed Elementor + YOAST inifinite loop when using the `[acfe_form]` shortcode to create a new post
@@ -1468,7 +1792,3 @@ function my_acfe_modules(){
 
 = 0.5 =
 * Initial release
-
-== Upgrade Notice ==
-
-None

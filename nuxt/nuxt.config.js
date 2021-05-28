@@ -4,6 +4,11 @@ import Webpack from 'webpack'
 
 export default {
     target: 'server',
+    vue: {
+        config: {
+            productionTip: false,
+        },
+    },
     publicRuntimeConfig: {
         APP_TITLE: '',
         APP_TITLE_TEMPLATE: '',
@@ -11,15 +16,15 @@ export default {
         APP_DEFAULT_LANG: '',
         APP_URL: '',
         APP_API: '',
-        APP_BACKEND_API: ''
+        APP_BACKEND_API: '',
     },
     privateRuntimeConfig: {},
     router: {
-        middleware: 'routerMiddleware'
+        middleware: 'routerMiddleware',
     },
     serverMiddleware: ['@/server/index'],
     server: {
-        host: '0.0.0.0'
+        host: '0.0.0.0',
         // https: {
         //     key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
         //     cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem'))
@@ -29,7 +34,7 @@ export default {
         title: process.env.APP_TITLE,
         titleTemplate: `%s | ${process.env.APP_TITLE_TEMPLATE}`,
         htmlAttrs: {
-            lang: 'zh'
+            lang: 'zh',
         },
         meta: [
             { name: 'googlebot', content: 'noindex' }, // TODO: 正式上線後刪除
@@ -58,34 +63,36 @@ export default {
             { hid: 'twitter:image', name: 'twitter:image', content: `${process.env.APP_URL}/og_img.jpg` },
             { hid: 'name', itemprop: 'name', content: process.env.APP_TITLE },
             { itemprop: 'description', content: process.env.APP_DESC },
-            { hid: 'image', itemprop: 'image', content: `${process.env.APP_URL}/og_img.jpg` }
+            { hid: 'image', itemprop: 'image', content: `${process.env.APP_URL}/og_img.jpg` },
         ],
-        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     css: [
-        '@/style/_main.scss' // global css
+        '@/style/_main.scss', // global css
     ],
     styleResources: {
         scss: [
-            '@/style/mixins/_mixin.scss' // mixin or function only !!!
-        ]
+            '@/style/mixins/_mixin.scss', // mixin or function only !!!
+        ],
     },
     loading: {
         color: '#108774',
-        height: '3px'
+        height: '3px',
     },
     plugins: [
         { src: '@/plugins/directives/index', mode: 'client' },
         { src: '@/plugins/prototype/index', mode: 'client' },
-        { src: '@/plugins/viewport/index' },
         { src: '@/plugins/svgSupportIE', mode: 'client' },
-        { src: '@/plugins/i18n' }
+        { src: '@/plugins/router' },
+        { src: '@/plugins/globalComposition' },
+        { src: '@/plugins/i18n' },
     ],
     components: true,
     buildModules: [
+        '@nuxtjs/composition-api/module',
         '@nuxtjs/eslint-module',
         '@nuxtjs/stylelint-module',
-        '@nuxtjs/style-resources'
+        '@nuxtjs/style-resources',
     ],
     modules: [
         ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }],
@@ -93,51 +100,59 @@ export default {
         '@nuxtjs/svg-sprite',
         'nuxt-rfg-icon',
         'nuxt-i18n',
+        'nuxt-route-meta',
         'portal-vue/nuxt',
-        'nuxt-webfontloader'
+        'nuxt-webfontloader',
     ],
     axios: {
-        browserBaseURL: process.env.APP_API
+        browserBaseURL: '/api',
+        proxy: true,
+    },
+    proxy: {
+        '/api': {
+            target: process.env.APP_API,
+            pathRewrite: { '^/api': '' },
+        },
     },
     svgSprite: {
-        input: '~/assets/icons'
+        input: '~/assets/icons',
     },
     i18n: {
         baseUrl: process.env.APP_URL,
         defaultLocale: process.env.APP_DEFAULT_LANG,
         vueI18n: {
-            fallbackLocale: process.env.APP_DEFAULT_LANG
+            fallbackLocale: process.env.APP_DEFAULT_LANG,
         },
         detectBrowserLanguage: {
             fallbackLocale: process.env.APP_DEFAULT_LANG,
-            onlyOnRoot: true
+            onlyOnRoot: true,
         },
         locales: [
             {
                 code: 'zh',
-                iso: 'zh_TW'
+                iso: 'zh_TW',
             },
             {
                 code: 'en',
-                iso: 'en-US'
-            }
+                iso: 'en-US',
+            },
         ],
         routesNameSeparator: '_',
         skipSettingLocaleOnNavigate: true,
         seo: false,
-        vuex: false
+        vuex: false,
     },
     webfontloader: {
         google: {
-            families: ['Noto Sans TC:400, 700']
-        }
+            families: ['Noto Sans TC:400, 700'],
+        },
     },
     build: {
         plugins: [
-            new Webpack.ProvidePlugin({})
+            new Webpack.ProvidePlugin({}),
         ],
         extend (config, { isDev, isClient, isServer }) {
             // webpack loader
-        }
-    }
+        },
+    },
 }
