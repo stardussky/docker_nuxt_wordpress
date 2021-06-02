@@ -3,6 +3,7 @@ require_once 'router/mail.php';
 require_once 'router/get_global_options.php';
 require_once 'router/get_language.php';
 require_once 'router/get_page_index.php';
+require_once 'router/get_page_about.php';
 require_once 'router/get_archive_news.php';
 require_once 'router/get_single_new.php';
 
@@ -32,6 +33,10 @@ add_action('rest_api_init', function () {
     register_rest_route('api', '/index', [
         'methods' => 'GET',
         'callback' => 'get_page_index'
+    ]);
+    register_rest_route('api', '/about', [
+        'methods' => 'GET',
+        'callback' => 'get_page_about'
     ]);
     register_rest_route('api', '/news', [
         'methods' => 'GET',

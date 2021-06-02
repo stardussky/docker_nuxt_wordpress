@@ -1,28 +1,28 @@
 {
-  "search.exclude": {
-    "wordpress/wp-content/plugins/": true,
-    "wordpress/wp-content/blockstudio-theme/templates": true,
-  },
-  "vetur.validation.template": false,
-  "javascript.format.enable": false,
-  "editor.tabSize": 4,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
-  },
-  "eslint.alwaysShowStatus": true,
-  "eslint.options": {
-    "extensions": [".html", ".js", ".vue"]
-  },
-  "eslint.workingDirectories": ["./nuxt"],
-  "cSpell.words": ["Vuex", "mixins", "nuxt", "nuxtjs"],
-  "cSpell.ignorePaths": [
-    "**/package.json",
-    "**/package-lock.json",
-    "**/node_modules/**",
-    "**/vscode-extension/**",
-    "**/.git/objects/**",
-    ".vscode"
-  ]
+    "search.exclude": {
+        "wordpress/wp-content/plugins/": true,
+        "wordpress/wp-content/blockstudio-theme/templates": true
+    },
+    "vetur.validation.template": false,
+    "javascript.format.enable": false,
+    "editor.tabSize": 4,
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
+    },
+    "eslint.alwaysShowStatus": true,
+    "eslint.options": {
+        "extensions": [".html", ".js", ".vue"]
+    },
+    "eslint.workingDirectories": ["./nuxt"],
+    "cSpell.words": ["Vuex", "mixins", "nuxt", "nuxtjs"],
+    "cSpell.ignorePaths": [
+        "**/package.json",
+        "**/package-lock.json",
+        "**/node_modules/**",
+        "**/vscode-extension/**",
+        "**/.git/objects/**",
+        ".vscode"
+    ]
 }

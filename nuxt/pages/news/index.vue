@@ -1,14 +1,18 @@
 <template>
     <div class="page-news">
-        <div>
-            News List:
-            <ul>
+        <div class="container">
+            <ul class="page-news__cards">
                 <li>
                     <nuxt-link
                         v-for="post in localeData.posts"
                         :key="post.ID"
+                        class="page-news__card"
                         :to="localePath({ name: 'news-post', params: { post: decodeURIComponent(post.post_name) } }, $i18n.locale)"
                     >
+                        <div
+                            v-bg="require('@/assets/img/block-map.jpg')"
+                            class="page-news__card-image"
+                        />
                         {{ post.post_title }}
                     </nuxt-link>
                 </li>
@@ -70,16 +74,28 @@ export default {
     height: 100vh;
     place-items: center;
 
-    > div {
+    .container {
         text-align: center;
+    }
+
+    &__card {
+        display: block;
+        margin: auto;
+        max-width: 360px;
+
+        &-image {
+            margin-bottom: 15px;
+
+            &::before {
+                content: '';
+                display: block;
+                padding-bottom: 56.25%;
+            }
+        }
     }
 
     ul {
         margin-bottom: 20px;
-    }
-
-    li {
-        text-decoration: underline;
     }
 }
 </style>

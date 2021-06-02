@@ -1,18 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('../plugins/axios')
+const mergeApiData = require('../functions/mergeApiData')
 
 router.get('/global_options', async (req, res) => {
-    const { data } = await axios.get('/wp-json/api/global_options')
-
-    if (data.status === 200) {
-        res.json({
-            status: data.status,
-            data: data.data,
-        })
-        return
-    }
-    res.json({ status: 500, error: 'Failed' })
+    const data = await mergeApiData('global_options')
+    res.json(data)
 })
 
 router.get('/*', function (req, res) {

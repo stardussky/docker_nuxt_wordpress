@@ -12,6 +12,7 @@ function get_archive_news($request)
 
     $response['data'] = (object) [
         'fields' => $fields,
+        'seo' => $fields['seo'],
         'posts' => $posts
     ];
 

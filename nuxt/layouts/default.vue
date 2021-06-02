@@ -1,6 +1,7 @@
 <template>
     <div :style="globalStyle">
         <Nuxt />
+        <Header />
         <LoadingAjax />
         <LoadingDefault />
     </div>
@@ -57,7 +58,6 @@ export default {
 
 .button--grey {
     display: inline-block;
-    margin-left: 15px;
     padding: 10px 30px;
     text-decoration: none;
     color: #35495e;

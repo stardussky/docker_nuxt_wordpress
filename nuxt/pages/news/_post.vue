@@ -1,9 +1,9 @@
 <template>
     <div class="page-new">
-        <div>
-            <p>
+        <div class="container">
+            <div class="page-new__title">
                 {{ localeData.seo.title }}
-            </p>
+            </div>
             <nuxt-link class="button--grey" :to="localePath('/news', $i18n.locale)">
                 Back
             </nuxt-link>
@@ -74,15 +74,13 @@ export default {
     height: 100vh;
     place-items: center;
 
-    > div {
+    .container {
         text-align: center;
     }
 
-    p {
+    &__title {
         @include typo('heading', 1);
 
-        display: block;
-        text-align: center;
         color: #35495e;
         margin-bottom: 20px;
     }
