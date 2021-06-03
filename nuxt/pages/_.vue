@@ -18,7 +18,7 @@
 
 <script>
 import { useStore, onMounted } from '@nuxtjs/composition-api'
-import ImagesLoaded from 'imagesloaded'
+import functions from '@/compositions/functions'
 
 export default {
     name: 'PageEnd',
@@ -35,13 +35,10 @@ export default {
     },
     setup () {
         const store = useStore()
+        const { loadImage } = functions()
 
         onMounted(() => {
-            store.dispatch('ADD_LOADING_STACK', new Promise((resolve) => {
-                new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
-                    resolve()
-                })
-            }))
+            store.dispatch('ADD_LOADING_STACK', loadImage())
         })
     },
     data () {

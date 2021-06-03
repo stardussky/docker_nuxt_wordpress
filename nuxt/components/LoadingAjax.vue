@@ -1,5 +1,8 @@
 <template>
-    <transition name="loading">
+    <transition
+        name="loading"
+        @afterLeave="loadingDone"
+    >
         <div
             v-show="loadingConfig.type === 'ajax' && isLoading"
             v-lock="loadingConfig.type === 'ajax' && isLoading"
@@ -9,13 +12,25 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { useStore, computed } from '@nuxtjs/composition-api'
 
 export default {
     name: 'LoadingAjax',
-    computed: {
-        ...mapState(['loadingConfig']),
-        ...mapGetters(['isLoading']),
+    setup (props, context) {
+        const store = useStore()
+
+        const loadingConfig = computed(() => store.state.loadingConfig)
+        const isLoading = computed(() => store.getters.isLoading)
+
+        const loadingDone = () => {
+            store.commit('CHANGE_LOADING_TYPE', 'LOADING_TYPE_DEFAULT')
+        }
+
+        return {
+            loadingConfig,
+            isLoading,
+            loadingDone,
+        }
     },
 }
 </script>

@@ -1,27 +1,41 @@
 <template>
-    <transition name="loading">
+    <transition
+        name="loading"
+        @afterLeave="loadingDone"
+    >
         <div
             v-show="loadingConfig.type === 'default' && isLoading"
             v-lock="loadingConfig.type === 'default' && isLoading"
-            class="loading"
+            class="loading-default"
         />
     </transition>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { useStore, computed } from '@nuxtjs/composition-api'
 
 export default {
-    name: 'Loading',
-    computed: {
-        ...mapState(['loadingConfig']),
-        ...mapGetters(['isLoading']),
+    name: 'LoadingDefault',
+    setup (props, context) {
+        const store = useStore()
+
+        const loadingConfig = computed(() => store.state.loadingConfig)
+        const isLoading = computed(() => store.getters.isLoading)
+
+        const loadingDone = () => {
+        }
+
+        return {
+            loadingConfig,
+            isLoading,
+            loadingDone,
+        }
     },
 }
 </script>
 
 <style lang='scss'>
-.loading {
+.loading-default {
     @include size(100%);
 
     position: fixed;

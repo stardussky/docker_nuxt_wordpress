@@ -13,7 +13,7 @@
 
 <script>
 import { useStore, useFetch, onMounted } from '@nuxtjs/composition-api'
-import ImagesLoaded from 'imagesloaded'
+import functions from '@/compositions/functions'
 
 export default {
     name: 'About',
@@ -22,6 +22,7 @@ export default {
     },
     setup () {
         const store = useStore()
+        const { loadImage } = functions()
 
         const { fetch, fetchState } = useFetch(async () => {
             const data = await store.dispatch('AJAX', { url: '/api' })
@@ -29,11 +30,7 @@ export default {
         })
 
         onMounted(() => {
-            store.dispatch('ADD_LOADING_STACK', new Promise((resolve) => {
-                new ImagesLoaded('#__nuxt', { background: '[data-background]' }, (instance) => {
-                    resolve()
-                })
-            }))
+            store.dispatch('ADD_LOADING_STACK', loadImage())
         })
     },
     head () {
