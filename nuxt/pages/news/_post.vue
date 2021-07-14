@@ -12,23 +12,27 @@
 </template>
 
 <script>
-import { } from '@nuxtjs/composition-api'
+import { ref } from '@nuxtjs/composition-api'
 
 export default {
     name: 'PageNew',
     beforeRouteEnter (to, from, next) {
         next((vm) => {
-            vm.route = {
-                params: to.params,
-                query: to.query,
-            }
+            vm.updateRoute(to)
         })
     },
     setup () {
-    },
-    data () {
+        const route = ref(null)
+        const updateRoute = (to) => {
+            route.value = {
+                params: to.params,
+                query: to.query,
+            }
+        }
+
         return {
-            route: null,
+            route,
+            updateRoute,
         }
     },
     head () {
@@ -71,7 +75,7 @@ export default {
 .page-new {
     display: grid;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     place-items: center;
 
     .container {

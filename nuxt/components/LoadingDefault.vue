@@ -7,7 +7,10 @@
             v-show="loadingConfig.type === 'default' && isLoading"
             v-lock="loadingConfig.type === 'default' && isLoading"
             class="loading-default"
-        />
+        >
+            <div class="loading-default__main" />
+            <Portal-target name="loading-default" />
+        </div>
     </transition>
 </template>
 
@@ -41,12 +44,19 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: map-get($colors, black);
     z-index: 99;
-    cursor: wait;
 
     > * {
         pointer-events: none;
+    }
+
+    &__main {
+        @include size(100%);
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: map-get($colors, black);
     }
 }
 </style>

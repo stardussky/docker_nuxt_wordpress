@@ -4,15 +4,23 @@
             <p class="page-about__title">
                 {{ localeData.seo.title }}
             </p>
+            <div class="button--green" @click="fetchApi">
+                GET API
+            </div>
             <nuxt-link class="button--grey" :to="localePath('/', $i18n.locale)">
                 Back
             </nuxt-link>
+            <Portal :order="isLoading ? 1 : 0" to="loading-ajax">
+                <div
+                    class="page-about__loading"
+                />
+            </Portal>
         </div>
     </div>
 </template>
 
 <script>
-import { useStore, useFetch, onMounted } from '@nuxtjs/composition-api'
+import { ref, useStore, useFetch, onMounted } from '@nuxtjs/composition-api'
 import functions from '@/compositions/functions'
 
 export default {
@@ -23,15 +31,32 @@ export default {
     setup () {
         const store = useStore()
         const { loadImage } = functions()
+        const isLoading = ref(false)
 
         const { fetch, fetchState } = useFetch(async () => {
             const data = await store.dispatch('AJAX', { url: '/api' })
             console.log(data)
         })
+        const fetchApi = async () => {
+            isLoading.value = true
+            store.commit('CHANGE_LOADING_TYPE', 'LOADING_TYPE_AJAX')
+            store.dispatch('ADD_LOADING_STACK', new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve()
+                }, 1000)
+            }))
+            await store.dispatch('WAIT_LOADING')
+            isLoading.value = false
+        }
 
         onMounted(() => {
             store.dispatch('ADD_LOADING_STACK', loadImage())
         })
+
+        return {
+            isLoading,
+            fetchApi,
+        }
     },
     head () {
         const i18nSeo = this.$nuxtI18nHead({ addSeoAttributes: true })
@@ -85,6 +110,15 @@ export default {
 
         color: #35495e;
         margin-bottom: 20px;
+    }
+
+    &__loading {
+        @include size(100%);
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(map-get($colors, white), 0.9);
     }
 }
 </style>

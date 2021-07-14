@@ -11,5 +11,5 @@ function get_global_options($request)
         'main_menu' => array_values($menu)
     ];
 
-    return new WP_REST_Response($response, 123);
+    return new WP_REST_Response($response, $response['status']);
 }

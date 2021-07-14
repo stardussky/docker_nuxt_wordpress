@@ -8,5 +8,5 @@ function get_page_index($request)
     $fields = get_fields($ID);
     $response['data'] = $fields;
 
-    return new WP_REST_Response($response, 123);
+    return new WP_REST_Response($response, $response['status']);
 }

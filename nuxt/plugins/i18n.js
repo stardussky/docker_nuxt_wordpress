@@ -13,9 +13,7 @@ export default ({ app, store, route, error }, inject) => {
         const paramsEntries = Object.entries(params)
         if (paramsEntries.length) {
             let [[key, value]] = paramsEntries
-            if (!process.browser) {
-                value = encodeURIComponent(value)
-            }
+            value = encodeURIComponent(decodeURIComponent(value))
             url += `/${value}`
             paramsPrefix += `_${key}${value}`
         }
@@ -25,9 +23,7 @@ export default ({ app, store, route, error }, inject) => {
             url += '?'
             queryPrefix += '_'
             queryEntries.forEach(([key, value]) => {
-                if (!process.browser) {
-                    value = encodeURIComponent(value)
-                }
+                value = encodeURIComponent(decodeURIComponent(value))
                 url += `${key}=${value}&`
                 queryPrefix += `${key}${value}`
             })
@@ -69,11 +65,16 @@ export default ({ app, store, route, error }, inject) => {
         }
     }
 
-    // client side
-    if (process.browser) {
-        setLocaleData(app.getRouteBaseName(route), route)
-    }
-
     inject('translateUrl', translateUrl)
     inject('setLocaleData', setLocaleData)
+
+    // client side
+    if (process.browser) {
+        for (const meta of route.meta) {
+            if (typeof meta.api === 'function' && meta.api(route) === false) return
+            if (meta.api === false) return
+        }
+
+        setLocaleData(app.getRouteBaseName(route), route)
+    }
 }

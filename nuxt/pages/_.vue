@@ -17,33 +17,38 @@
 </template>
 
 <script>
-import { useStore, onMounted } from '@nuxtjs/composition-api'
+import { ref, useStore, onMounted } from '@nuxtjs/composition-api'
 import functions from '@/compositions/functions'
 
 export default {
     name: 'PageEnd',
     beforeRouteEnter (to, from, next) {
         next((vm) => {
-            vm.route = {
-                params: { pathMatch: to.params.pathMatch },
-                query: to.query,
-            }
+            vm.updateRoute(to)
         })
     },
     meta: {
         loading: true,
     },
     setup () {
+        const route = ref(null)
         const store = useStore()
         const { loadImage } = functions()
+
+        const updateRoute = (to) => {
+            route.value = {
+                params: to.params,
+                query: to.query,
+            }
+        }
 
         onMounted(() => {
             store.dispatch('ADD_LOADING_STACK', loadImage())
         })
-    },
-    data () {
+
         return {
-            route: null,
+            route,
+            updateRoute,
         }
     },
     computed: {

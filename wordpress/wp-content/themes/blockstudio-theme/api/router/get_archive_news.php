@@ -16,5 +16,5 @@ function get_archive_news($request)
         'posts' => $posts
     ];
 
-    return new WP_REST_Response($response, 123);
+    return new WP_REST_Response($response, $response['status']);
 }

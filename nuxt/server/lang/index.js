@@ -33,7 +33,7 @@ router.get('/news', async (req, res) => {
 router.get('/news-post/:post', async (req, res) => {
     const { post } = req.params
 
-    const data = await mergeApiData(`news-post/${encodeURIComponent(post)}`)
+    const data = await mergeApiData(`news-post/${encodeURIComponent(decodeURIComponent(post))}`)
     res.json(data)
 })
 

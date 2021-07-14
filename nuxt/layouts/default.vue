@@ -49,6 +49,7 @@ export default {
     color: #3b8070;
     border: 1px solid #3b8070;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .button--green:hover {
@@ -63,6 +64,7 @@ export default {
     color: #35495e;
     border: 1px solid #35495e;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .button--grey:hover {

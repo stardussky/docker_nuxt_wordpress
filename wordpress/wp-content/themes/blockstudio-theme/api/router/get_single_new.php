@@ -6,7 +6,10 @@ function get_single_new($request)
 
     $post_type = 'news';
     $post_name = $request['post'];
-    $post = get_post_by_name($post_name, $post_type);
+    $post = get_posts([
+        "post_type" => $post_type,
+        "name" => $post_name
+    ])[0];
 
     if ($post) {
         $response['status'] = 200;
@@ -15,5 +18,5 @@ function get_single_new($request)
         $response['data'] = $fields;
     }
 
-    return new WP_REST_Response($response, 123);
+    return new WP_REST_Response($response, $response['status']);
 }

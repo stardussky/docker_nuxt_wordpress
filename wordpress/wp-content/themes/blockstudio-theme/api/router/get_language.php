@@ -10,5 +10,5 @@ function get_language($request)
         $response['data'] = wpm_get_languages();
     }
 
-    return new WP_REST_Response($response, 123);
+    return new WP_REST_Response($response, $response['status']);
 }
